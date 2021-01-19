@@ -19,6 +19,30 @@ const handleSearch = event => {
     })
 }
 
+const onSaveBook = (id) => {
+    const targetBook = books.find((book) => book.id === id);
+    const volumeInfo = targetBook.volumeInfo;
+    const title = volumeInfo.title;
+    const authors = volumeInfo.authors
+    ? volumeInfo.authors.join(", ") 
+    : "No Authors Found";
+    const description = volumeInfo.description
+    ? volumeInfo.description
+    : "No description could be found for this book";
+    const image = volumeInfo.imageLinks
+      ? volumeInfo.imageLinks.thumbnail
+      : "https://dummyimage.com/128x197/b5b5b5/ffffff&text=No+Image+Available";
+    const link = volumeInfo.previewLink;
+
+    API.saveBooks({
+      title: title,
+      authors: authors,
+      description: description,
+      image: image,
+      link: link
+    })
+  };
+
     return(
 <Container fluid>
     <Card>
@@ -60,7 +84,7 @@ const handleSearch = event => {
             description={descriptionBook}
             thumbnail={image}
             link={volumeInfo.infoLink}
-            onAction={onSaveBook}
+            onClick={() => onSaveBook(book.id)}
       ></BookResults>
         )
     })}
